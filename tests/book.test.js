@@ -2,13 +2,13 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const Book = require('../models/book');
 const app = require('../app');
+const User = require('../models/User')
 
 describe("Book Integration", () => {
   let token;
 
   beforeAll(async () => {
     await mongoose.connection.db.dropDatabase();
-    await User.syncIndexes();
     try {
       await request(app).post("/api/auth/register").send({
         email: "test@example.com",
@@ -20,7 +20,7 @@ describe("Book Integration", () => {
       email: "test@example.com",
       password: "Password123!",
     });
-    token = res.body.token;
+    token = res.body.accessToken
   });
 
   beforeEach(async () => {
